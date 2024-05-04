@@ -16,7 +16,7 @@ const authClient = new google.auth.JWT(
 
 const express = require('express')
 const app = express()
-const port = 1677
+const port = process.env.PORT || 1677
 
 app.get('/', async (req, res) => {
     res.send(await twitch_channels())
