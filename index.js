@@ -14,9 +14,11 @@ const authClient = new google.auth.JWT(
 );
 
 const express = require('express')
+const cors = require('cors');
 const app = express()
 const port = process.env.PORT || 1677
 
+app.use(cors());
 app.get('/', async (req, res) => {
     res.send(await twitch_channels())
 })
