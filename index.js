@@ -1,8 +1,7 @@
 // Import dependencies
 const fs = require("fs");
 const { google } = require("googleapis");
-// require('dotenv').config();
-
+require('dotenv').config();
 
 const service = google.sheets("v4");
 
@@ -24,7 +23,7 @@ app.get('/', async (req, res) => {
 
 app.listen(port, () => {
 
-    console.log(`Example app listening on port ${process.env.pouet}`)
+    console.log(`Example app listening on port ${port}`)
 })
 
 async function twitch_channels() {
@@ -40,36 +39,27 @@ async function twitch_channels() {
         const res = await service.spreadsheets.values.get({
             auth: authClient,
             spreadsheetId: "13gAlL6D8nse4vCHOtB54O-MeVYgw5sBrUWjBK7p4bgY",
-            range: "A:B",
+            range: "B:B",
         });
 
         // All of the answers
-        const answers = [];
+        const channels = [];
 
         // Set rows to equal the rows
         const rows = res.data.values;
 
         // Check if we have any data and if we do add it to our answers array
         if (rows.length) {
-
-            // Remove the headers
-            rows.shift()
-
-            // For each row
+            rows.shift() // Remove the headers
             for (const row of rows) {
-                answers.push({ timeStamp: row[0], answer: row[1] });
+                channels.push(row[0])
             }
 
         } else {
             console.log("No data found.");
         }
 
-        return answers
-        // // Saved the answers
-        // fs.writeFileSync("answers.json", JSON.stringify(answers), function (err, file) {
-        //     if (err) throw err;
-        //     console.log("Saved!");
-        // });
+        return channels
 
     } catch (error) {
 
