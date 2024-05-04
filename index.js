@@ -1,7 +1,7 @@
 // Import dependencies
 const fs = require("fs");
 const { google } = require("googleapis");
-require('dotenv').config();
+// require('dotenv').config();
 
 
 const service = google.sheets("v4");
