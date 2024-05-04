@@ -1,15 +1,16 @@
 // Import dependencies
 const fs = require("fs");
 const { google } = require("googleapis");
+require('dotenv').config();
+
 
 const service = google.sheets("v4");
-const credentials = require("./credentials.json");
 
 // Configure auth client
 const authClient = new google.auth.JWT(
-    credentials.client_email,
+    process.env.client_email,
     null,
-    credentials.private_key.replace(/\\n/g, "\n"),
+    process.env.private_key.replace(/\\n/g, "\n"),
     ["https://www.googleapis.com/auth/spreadsheets"]
 );
 
@@ -22,7 +23,8 @@ app.get('/', async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+
+    console.log(`Example app listening on port ${process.env.pouet}`)
 })
 
 async function twitch_channels() {
