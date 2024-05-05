@@ -41,7 +41,7 @@ async function twitch_channels() {
         const res = await service.spreadsheets.values.get({
             auth: authClient,
             spreadsheetId: "13gAlL6D8nse4vCHOtB54O-MeVYgw5sBrUWjBK7p4bgY",
-            range: "C:C",
+            range: "B:B",
         })
 
         // All of the answers
