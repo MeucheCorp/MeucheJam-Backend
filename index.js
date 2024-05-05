@@ -41,11 +41,11 @@ async function twitch_channels() {
         const res = await service.spreadsheets.values.get({
             auth: authClient,
             spreadsheetId: "13gAlL6D8nse4vCHOtB54O-MeVYgw5sBrUWjBK7p4bgY",
-            range: "B:B",
+            range: "B:E",
         })
 
         // All of the answers
-        const channels = []
+        const participants = { streamers: [], non_streamers: [] }
 
         // Set rows to equal the rows
         const rows = res.data.values
@@ -53,19 +53,30 @@ async function twitch_channels() {
         // Check if we have any data and if we do add it to our answers array
         if (rows.length) {
             rows.shift() // Remove the headers
+
             for (const row of rows) {
-                const channel = row[0]
-                const slash_index = channel.lastIndexOf('/')
-                channels.push(slash_index !== -1
-                    ? channel.substring(slash_index + 1)
-                    : channel
-                )
+                if (row.length === 0)
+                    continue
+                let channel = row[0]
+                const name = row.length >= 4
+                    ? row[3]
+                    : ""
+                if (channel !== "") {
+                    const slash_index = channel.lastIndexOf('/')
+                    channel = slash_index !== -1
+                        ? channel.substring(slash_index + 1)
+                        : channel
+                    participants.streamers.push({
+                        channel, name
+                    })
+                }
+                else if (name !== "") {
+                    participants.non_streamers.push(name)
+                }
             }
-        } else {
-            console.log("No data found.")
         }
 
-        return channels
+        return participants
 
     } catch (error) {
 
