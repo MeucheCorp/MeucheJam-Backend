@@ -19,8 +19,11 @@ const app = express()
 const port = process.env.PORT || 1677
 
 app.use(cors())
-app.get('/', async (req, res) => {
-    res.send(await twitch_channels())
+app.get("/", (req, res) => {
+  res.send("")
+})
+app.get("/participants", async (req, res) => {
+  res.send(await twitch_channels())
 })
 
 app.listen(port, () => {
